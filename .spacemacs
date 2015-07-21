@@ -175,6 +175,13 @@ layers configuration."
        (message "No special flycheck config defined. Running default.")
    )
 
+   (defun annotate-pdb ()
+     (interactive)
+     (highlight-lines-matching-regexp "import pdb")
+     (highlight-lines-matching-regexp "pdb.set_trace()")
+   )
+   (add-hook 'python-mode-hook 'annotate-pdb)
+
    (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
    (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
    (global-set-key (kbd "C-=") 'text-scale-increase)
