@@ -18,6 +18,7 @@
      ;; --------------------------------------------------------
      auto-completion
      better-defaults
+     fasd
      (git :variables
           git-gutter-use-fringe t)
      markdown
@@ -26,9 +27,11 @@
      syntax-checking
      python
      ipython-notebook
+     django
      javascript
      html
      )
+   dotspacemacs-additional-packages '(skewer-mode)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
