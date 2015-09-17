@@ -18,9 +18,13 @@
      ;; --------------------------------------------------------
      auto-completion
      better-defaults
-     fasd
+     ;; fasd
+     tmux
+     eyebrowse
+     perspectives
      (git :variables
           git-gutter-use-fringe t)
+     github
      markdown
      version-control
      org
@@ -28,6 +32,8 @@
      python
      ipython-notebook
      django
+     yaml
+     salt
      javascript
      html
      )
@@ -143,7 +149,7 @@ before layers configuration."
   ;; User initialization goes here
   )
 
-(defun dotspacemacs/config ()
+(defun dotspacemacs/user-config ()
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
@@ -208,6 +214,7 @@ layers configuration."
        (kill-buffer commit-buf)))
 
    (evil-leader/set-key "o g" 'git-blame-line)
+   (setq evil-move-beyond-eol nil)
 
    (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
    (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
