@@ -232,6 +232,10 @@ layers configuration."
    ;; Also in visual mode
    (define-key evil-visual-state-map "j" 'evil-next-visual-line)
    (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+   (spacemacs|add-toggle which-function-mode :status which-function-mode :on (which-function-mode) :off (which-function-mode -1) :evil-leader "otw")
+   (spacemacs|define-mode-line-segment which-function which-func-format :when (bound-and-true-p which-function-mode))
+
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
