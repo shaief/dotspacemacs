@@ -153,6 +153,15 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+  (defun my-minibuffer-setup-hook ()
+    (setq gc-cons-threshold most-positive-fixnum))
+
+  (defun my-minibuffer-exit-hook ()
+    (setq gc-cons-threshold 800000))
+
+  (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
+  (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)
+
    (defun conditional-disable-modes ()
        (interactive)
        (message "Checks if the file is too large...")
