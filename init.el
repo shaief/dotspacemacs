@@ -232,6 +232,10 @@ layers configuration."
    ;; Also in visual mode
    (define-key evil-visual-state-map "j" 'evil-next-visual-line)
    (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
+
+   (with-eval-after-load 'markdown-mode
+     (setq markdown-command "cheapskate"))
+
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
