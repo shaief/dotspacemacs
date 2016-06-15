@@ -224,7 +224,7 @@ layers configuration."
               (log-buf (generate-new-buffer "*git-blame-line-log*")))
          (kill-new commit-id)
          (call-process "git" nil log-buf nil
-                       "log" "-1" "--pretty=%h   %an   %s" commit-id)
+                       "log" "-1" "--date=short" "--pretty=%h  %ad  %an   %s" commit-id)
          (with-current-buffer log-buf
            (message "Line %d: %s" line-number (buffer-string)))
          (kill-buffer log-buf))
