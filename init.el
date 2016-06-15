@@ -188,10 +188,18 @@ layers configuration."
        (message "All should be as expected :)")
    )
    (add-hook 'python-mode-hook 'conditional-disable-modes t)
-   (if (getenv "FLYCHECK")
-       (setq flycheck-python-flake8-executable (getenv "FLYCHECK"))
-       (message "No special flycheck config defined. Running default.")
+
+   (defun customize-flycheck ()
+      (message "Check for environment variable FLYCHECK")
+          (if (getenv "FLYCHECK")
+              (progn
+               (setq flycheck-python-flake8-executable (getenv "FLYCHECK"))
+               (message "Using customized flycheck config"))
+          (message "No special flycheck config was defined - using default")
+          )
+      (setq python-shell-interpreter "python")
    )
+   (add-hook 'python-mode-hook 'customize-flycheck)
 
    (defun annotate-pdb ()
      (interactive)
