@@ -367,10 +367,18 @@ you should place your code here."
        (message "All should be as expected :)")
    )
    (add-hook 'python-mode-hook 'conditional-disable-modes t)
-   (if (getenv "FLYCHECK")
-       (setq flycheck-python-flake8-executable (getenv "FLYCHECK"))
-       (message "No special flycheck config defined. Running default.")
+
+   (defun customize-flycheck ()
+      (message "Check for environment variable FLYCHECK")
+          (if (getenv "FLYCHECK")
+              (progn
+               (setq flycheck-python-flake8-executable (getenv "FLYCHECK"))
+               (message "Using customized flycheck config"))
+          (message "No special flycheck config was defined - using default")
+          )
+      (setq python-shell-interpreter "python")
    )
+   (add-hook 'python-mode-hook 'customize-flycheck)
 
    ;; Include underscores in word motions
    ;; http://spacemacs.org/doc/FAQ.html#orgheadline27
@@ -404,7 +412,7 @@ you should place your code here."
               (log-buf (generate-new-buffer "*git-blame-line-log*")))
          (kill-new commit-id)
          (call-process "git" nil log-buf nil
-                       "log" "-1" "--pretty=%h   %an   %s" commit-id)
+                       "log" "-1" "--date=short" "--pretty=%h  %ad  %an   %s" commit-id)
          (with-current-buffer log-buf
            (message "Line %d: %s" line-number (buffer-string)))
          (kill-buffer log-buf))
