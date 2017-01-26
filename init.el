@@ -46,6 +46,18 @@ values."
      version-control
      rust
      tmux
+     csv
+     (colors :variables
+     colors-enable-nyan-cat-progress-bar t)
+     auto-completion
+     better-defaults
+     ;; fasd
+     shell
+     tmux
+     ;; eyebrowse
+     ;; perspectives
+     (git :variables
+          git-gutter-use-fringe t)
      github
      (markdown :variables markdown-live-preview-engine 'eww)
      version-control
@@ -53,6 +65,7 @@ values."
      ;;      org-enable-reveal-js-support t
      ;;      org-enable-github-support t
      ;;      )
+     speed-reading
      python
      ipython-notebook
      django
@@ -62,17 +75,24 @@ values."
      javascript
      react
      html
-     shell
+     emoji
+     ;; semantic
+     ranger
+     plantuml
+     xkcd
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(skewer-mode
+                                      pyimport)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(
+                                    pyenv-mode
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -142,8 +162,14 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(base16-tomorrow-night
                          spacemacs-dark
-                         spacemacs-light)
-   ;; If non-nil the cursor color matches the state color in GUI Emacs.
+                         spacemacs-light
+                         base16-tomorrow-light
+                         monokai
+                         solarized-light
+                         solarized-dark
+                         leuven
+                         zenburn)
+   ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
@@ -291,7 +317,8 @@ values."
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("rg" "ag" "pt" "ack" "grep")
+   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
+   dotspacemacs-search-tools '("pt" "rg" "ag" "ack" "grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
@@ -313,6 +340,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   )
 
+
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -320,6 +348,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  (setq evil-search-module 'isearch)
+  (setq helm-ff-skip-boring-files t)
+
+  (spacemacs/toggle-visual-line-navigation)
 
   (defun my-minibuffer-setup-hook ()
     (setq gc-cons-threshold most-positive-fixnum))
@@ -431,6 +464,7 @@ you should place your code here."
    (global-set-key (kbd "M-j") 'move-text-down)
    (evil-leader/set-key "d" 'iedit-rectangle-mode)
    (evil-leader/set-key ":" 'helm-M-x)
+   (evil-leader/set-key "SPC" 'helm-M-x)
 
    ;; Make evil-mode up/down operate in screen lines instead of logical lines
    (define-key evil-normal-state-map "j" 'evil-next-visual-line)
@@ -442,7 +476,15 @@ you should place your code here."
    (with-eval-after-load 'markdown-mode
      (setq markdown-command "cheapskate"))
 
-  )
+   (spacemacs/set-leader-keys-for-major-mode 'python-mode
+     "ii" 'pyimport-insert-missing
+     "ir" 'pyimport-remove-unused)
+
+   (require 'ansi-color)
+   (defun display-ansi-colors ()
+     (interactive)
+     (ansi-color-apply-on-region (point-min) (point-max)))
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -464,5 +506,6 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
 )
