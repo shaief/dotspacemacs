@@ -163,12 +163,11 @@ values."
    dotspacemacs-themes '(base16-tomorrow-night
                          spacemacs-dark
                          spacemacs-light
-                         base16-tomorrow-light
-                         monokai
-                         solarized-light
-                         solarized-dark
-                         leuven
-                         zenburn)
+                         ;; solarized-light
+                         ;; solarized-dark
+                         ;; leuven
+                         ;; zenburn)
+                         )
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
